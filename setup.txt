@@ -1,0 +1,13 @@
+1. Initialize project:
+   npm init -y
+
+2. Install dependencies:
+   npm install socket.io socket.io-client
+
+3. Run server:
+   node server.js
+
+4. Open multiple terminals and run:
+   node client.js
+
+5. Start chatting in CLI
