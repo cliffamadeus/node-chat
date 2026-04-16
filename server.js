@@ -1,4 +1,3 @@
-
 const { Server } = require('socket.io');
 const http = require('http');
 
@@ -14,11 +13,15 @@ function getPHTime() {
 }
 
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log(`[CONNECT] ${getPHTime()} - ID: ${socket.id}`);
 
   socket.on('join', (nickname) => {
     socket.nickname = nickname;
 
+    // SERVER ONLY LOG (nickname + id)
+    console.log(`[JOIN] ${getPHTime()} - ${nickname} (ID: ${socket.id})`);
+
+    // Broadcast clean system message (no socket id)
     io.emit('system', {
       text: `${nickname} joined the chat`,
       time: getPHTime()
@@ -26,6 +29,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', (msg) => {
+    // SERVER ONLY LOG
+    console.log(`[MSG] ${getPHTime()} - ${socket.nickname} (${socket.id}): ${msg}`);
+
+    // Broadcast clean message to clients
     io.emit('message', {
       user: socket.nickname,
       text: msg,
@@ -35,6 +42,9 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     if (socket.nickname) {
+      // SERVER ONLY LOG
+      console.log(`[LEAVE] ${getPHTime()} - ${socket.nickname} (ID: ${socket.id})`);
+
       io.emit('system', {
         text: `${socket.nickname} left the chat`,
         time: getPHTime()
