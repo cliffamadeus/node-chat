@@ -1,7 +1,7 @@
 const ioClient = require('socket.io-client');
 const readline = require('readline');
 
-const socket = ioClient('http://localhost:3000');
+const socket = ioClient('http://192.168.100.250:3000');
 
 const rl = readline.createInterface({
   input: process.stdin,
